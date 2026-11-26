@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fond clair et encre ardoise, dans l'esprit des supports officiels de la Légion */
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f4f5;
+  --color-paper-3: #e8e9eb;
+  --color-ink: #262e36;
+  --color-ink-2: #3e4852;
+  --color-ink-3: #6c757d;
+  --color-rule: #d6d6d6;
+
+  /* Ardoise (bandeaux, boutons, pied de page) */
+  --color-night: #1c2228;
+  --color-slate: #262e36;
+  --color-slate-2: #343a40;
+
+  /* Vert Légion */
+  --color-green-950: #14281b;
+  --color-green-900: #1e3d29;
+  --color-green-800: #2d5e3a;
+  --color-green-700: #3f8650;
+  --color-green-600: #4f9a60;
+  --color-green-300: #a9cdb1;
+  --color-green-100: #e7f1e9;
+
+  /* Rouge, en touches très discrètes */
+  --color-garance: #b3261e;
+  --color-garance-soft: #e08a7d;
+
+  /* Carte */
+  --color-sea: #e9edf0;
+  --color-land: #ffffff;
+  --color-border: #c9ced3;
+
+  /* Typographies : affiche (titres en capitales), titrage condensé, texte courant */
+  --font-poster: var(--font-big-shoulders), "Big Shoulders", Impact, sans-serif;
+  --font-display: var(--font-archivo-narrow), "Archivo Narrow", "Arial Narrow", sans-serif;
+  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-mono: var(--font-archivo-narrow), "Archivo Narrow", "Arial Narrow", sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-green-700);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-garance);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Conteneur de section (ancienne texture papier, retirée avec la nouvelle direction artistique). */
+  .paper-grain {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Titres d'affiche : capitales très condensées */
+  .poster {
+    font-family: var(--font-poster);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.9;
+  }
+
+  /* Boutons carrés, capitales, flèche — comme sur les supports de la Légion */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.4rem;
+    background: var(--color-slate);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .btn:hover {
+    background: var(--color-green-700);
+  }
+  .btn-light {
+    background: #fff;
+    color: var(--color-ink);
+  }
+  .btn-light:hover {
+    background: var(--color-green-700);
+    color: #fff;
+  }
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  }
+  .btn-outline:hover {
+    background: #fff;
+    color: var(--color-ink);
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-rule) 12%, var(--color-rule) 88%, transparent);
+  }
+
+  .prose-legion p {
+    line-height: 1.75;
+    color: var(--color-ink-2);
+  }
+  .prose-legion p + p {
+    margin-top: 0.9em;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rule) transparent;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Apparition au défilement : n'agit que si JavaScript est actif et le mouvement autorisé. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition:
+      opacity 0.7s var(--ease-soft),
+      transform 0.7s var(--ease-soft);
+  }
+  [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
